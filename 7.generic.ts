@@ -48,8 +48,6 @@ const response2: ServerResponseType<PhotoType> = {
 
 // ----------------------------------------------------------------------
 
-// Infer type - подразумевать тип, делать вывод и тд
-
 type Nullable<NT> = null | NT
 
 const initialState = {
@@ -58,3 +56,37 @@ const initialState = {
     user: null as Nullable<UserType>,
     photo: null as Nullable<PhotoType>
 }
+
+// Action creators
+
+const AC1 = (age: number) => (
+    {
+        type: 'SET-AGE',
+        age
+    } as const)
+
+const AC2 = (firstName: string, lastName: string) => (
+    {
+        type: 'SET-NAME',
+        firstName,
+        lastName
+    } as const)
+
+type AC1Type = ReturnType<typeof AC1>
+type AC2Type = ReturnType<typeof AC2>
+
+const action1: AC1Type = {
+    type: 'SET-AGE', // из-за "as const" тип обязательно должны совпадать
+    age: 24
+}
+
+const action2: AC2Type = {
+    type: "SET-NAME", // тут тоже не может быть другого типа
+    firstName: 'Misha',
+    lastName: 'Nefedov'
+}
+
+// Conditional Type - условный тип
+// Infer type - подразумевать тип, делать вывод и тд
+// extends
+
