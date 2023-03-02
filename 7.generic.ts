@@ -90,3 +90,68 @@ const action2: AC2Type = {
 // Infer type - подразумевать тип, делать вывод и тд
 // extends
 
+type HipHop<T> = T extends 'name' ? UserType :
+    T extends 'photo' ? PhotoType : any
+
+let a: HipHop<'name'> = {
+    firstName: 'Chi',
+    lastName: 'Mich',
+    age: 24
+}
+
+let b: HipHop<'photo'> = {
+    large: 'qwe',
+    small: 'zxc'
+}
+
+// Если несколько подтипов передаем, то сработают оба, например
+// т.е "c" и типа UserType и типа PhotoType
+
+type HipHop2<T> = T extends 'name' ? UserType :
+    T extends 'photo' ? PhotoType : any
+
+let c: HipHop2<'name' | 'photo'> = {
+    firstName: 'Chi',
+    lastName: 'Mich',
+    age: 24
+}
+
+c = {
+    large: 'qwe',
+    small: 'zxc'
+}
+
+// Напишем свой ReturnType
+// Это дженерик, он принимает какой-то тип функции, мы проверяем,
+// если это действительно является типом функции, принимает какое-то кол-во аргументов любого типа
+// и возвращает какой-то другой тип, тогда ты компилятор додумай (infer) этот тип и запиши в тип переменной R
+// и если наш T является функцией, то верни нам R - это тот тип который наша функций возвращает, иначе never
+
+type MyReturnType<T> = T extends (...args: any[]) => infer R ? R : never
+
+// Как получить все типы объекта
+
+const obj = {
+    a: {name: 'Misha'},
+    b: {age: 24},
+    c: {site: {title: 'site'}}
+}
+
+// 1 вариант
+type SomeType = typeof obj.a | typeof obj.b | typeof obj.c
+
+let obj2: SomeType = {
+    age: 25,
+    name: 'Chichi'
+}
+
+// 2 вариант
+// Если T является объектом, который состоит из ключей и значений
+// он сам додумает тип для объекта "{name: 'Misha'}" и т.д. и вернет этот тип этого объекта
+// он так пробежится по всем значениям a, b, c
+type SomeType2<T> = T extends {[key: string]: infer U} ? U : never
+
+let obj3: SomeType2<typeof obj> = {
+    name: 'Valera',
+    age: 26
+}
