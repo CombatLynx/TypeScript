@@ -1,11 +1,13 @@
-import logo from './logo.svg';
 import './App.css';
+import C2Container2 from "./Components/Compose.tsx";
 
-function App() {
-  return (
-    <div className="App">
-    </div>
-  );
+const App = () => {
+    return (
+        <div className="App">
+            <div>Hello</div>
+            <C2Container2 dance={21}/>
+        </div>
+    );
 }
 
 export default App;
