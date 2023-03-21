@@ -1,5 +1,6 @@
 import {ComponentType, FC} from "react";
 import {compose} from "redux";
+import {connect} from "react-redux";
 
 function A<T extends { name: string }>(entity: T) {
 }
@@ -43,12 +44,18 @@ const C1: FC<C1PropsType> = (props) => {
     return <div>{props.title}</div>
 }
 
-// const C1Container = HipHopHOC(C1)
-// const C2Container2 = DanceHOC(C1Container)
+type FromHipHopHOCPropsType = Omit<C1PropsType, 'hiphop'>
 
-const C2Container2 = compose(
+type FromHipHopHOCType = ComponentType<FromHipHopHOCPropsType>
+type FromDanceHOCType = ComponentType<Omit<FromHipHopHOCPropsType, 'dance'>>
+
+const SuperHOC = compose<FromHipHopHOCType, // A
+    ComponentType<C1PropsType>, // T1
+    FromDanceHOCType>( // R
     DanceHOC,
     HipHopHOC
-)(C1)
+);
 
-export default C2Container2
+const C1Container2 = SuperHOC(C1)
+
+export default C1Container2
