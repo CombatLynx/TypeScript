@@ -1,6 +1,5 @@
 import {ComponentType, FC} from "react";
 import {compose} from "redux";
-import {connect} from "react-redux";
 
 function A<T extends { name: string }>(entity: T) {
 }
