@@ -1,3 +1,4 @@
+////////////////////////////////////////////////////
 var isFetching = true;
 var isLoading = false;
 var int = 42;
